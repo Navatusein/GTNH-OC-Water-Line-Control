@@ -26,8 +26,8 @@ function t5controller:new(plasmaTransposerAddress, coolantTransposerAddress)
   ---@class T5Controller
   local obj = {}
 
-  obj.plasmaTransposerProxy = componentDiscoverLib.discoverProxy(plasmaTransposerAddress, "[T5] Plasma Transposer", "transposer")
-  obj.coolantTransposerProxy = componentDiscoverLib.discoverProxy(coolantTransposerAddress, "[T5] Coolant Transposer", "transposer")
+  obj.plasmaTransposerProxy = nil
+  obj.coolantTransposerProxy = nil
   obj.controllerProxy = nil
 
   obj.stateMachine = stateMachineLib:new()
@@ -138,6 +138,8 @@ function t5controller:new(plasmaTransposerAddress, coolantTransposerAddress)
       error("[T5] Extreme Temperature Fluctuation Purification Unit not found")
     end
 
+    self.plasmaTransposerProxy = componentDiscoverLib.discoverProxy(plasmaTransposerAddress, "[T5] Plasma Transposer", "transposer")
+    self.coolantTransposerProxy = componentDiscoverLib.discoverProxy(coolantTransposerAddress, "[T5] Coolant Transposer", "transposer")
     self.gtSensorParser = gtSensorParserLib:new(self.controllerProxy)
   end
 

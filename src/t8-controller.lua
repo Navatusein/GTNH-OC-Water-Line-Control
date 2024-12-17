@@ -30,14 +30,8 @@ function t8controller:new(maxQuarkCount, transposerAddress, subMeInterfaceAddres
 
   obj.maxQuarkCount = maxQuarkCount
 
-  obj.transposerProxy = componentDiscoverLib.discoverProxy(
-    transposerAddress,
-    "[T8] Transposer",
-    "transposer")
-  obj.subMeInterfaceProxy = componentDiscoverLib.discoverProxy(
-    subMeInterfaceAddress,
-    "[T8] Sub Me Interface",
-    "me_interface")
+  obj.transposerProxy = nil
+  obj.subMeInterfaceProxy = nil
   obj.controllerProxy = nil
 
   obj.stateMachine = stateMachineLib:new()
@@ -149,6 +143,14 @@ function t8controller:new(maxQuarkCount, transposerAddress, subMeInterfaceAddres
       error("[T8] Absolute Baryonic Perfection Purification Unit not found")
     end
 
+    self.transposerProxy = componentDiscoverLib.discoverProxy(
+      transposerAddress,
+      "[T8] Transposer",
+      "transposer")
+    self.subMeInterfaceProxy = componentDiscoverLib.discoverProxy(
+      subMeInterfaceAddress,
+      "[T8] Sub Me Interface",
+      "me_interface")
     self.gtSensorParser = gtSensorParserLib:new(self.controllerProxy)
   end
 

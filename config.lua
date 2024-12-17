@@ -13,6 +13,8 @@ local t7controllerLib = require("src.t7-controller")
 local t8controllerLib = require("src.t8-controller")
 
 local config = {
+  enableAutoUpdate = true, -- Enable auto update on start
+
   logger = loggerLib:newFormConfig({
     name = "Water Line Control",
     timeZone = 3, -- Your time zone

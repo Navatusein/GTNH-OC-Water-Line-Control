@@ -24,7 +24,7 @@ function t3controller:new(transposerAddress)
   ---@class T3Controller
   local obj = {}
 
-  obj.transposerProxy = componentDiscoverLib.discoverProxy(transposerAddress, "[T3] Transposer", "transposer")
+  obj.transposerProxy = nil
   obj.controllerProxy = nil
 
   obj.stateMachine = stateMachineLib:new()
@@ -79,6 +79,7 @@ function t3controller:new(transposerAddress)
       error("[T3] Flocculation Purification Unit not found")
     end
 
+    self.transposerProxy = componentDiscoverLib.discoverProxy(transposerAddress, "[T3] Transposer", "transposer")
     self.gtSensorParser = gtSensorParserLib:new(self.controllerProxy)
   end
 
