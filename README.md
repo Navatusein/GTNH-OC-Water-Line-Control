@@ -264,6 +264,9 @@ The idea is that the quarks lie on a separate sub AE.
 They are fed into the interest to the interface connected to the storage bus to see how many quarks there are. 
 After the cycle, the quarks are dumped into this subnet and the computer sees which ones are missing and orders them through the Laser Engraver.
 
+> [!NOTE]  
+> Maximum 42 infinity ingots used per cycle. But usually less. Consumption can be 6, 18, 42 ingots per cycle. Depends on luck.
+
 #### T8 Config part
 
 ```Lua
