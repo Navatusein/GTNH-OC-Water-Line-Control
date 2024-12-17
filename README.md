@@ -73,6 +73,27 @@ The program interface is configured for a 3x2 monitor.
 >
 > <img src="docs/analyzer.png" alt="Analyzer" width="120"/>
 
+### Water Purification Plant
+
+#### Components
+
+To build a setup, you will need:
+- Adapter: 1
+- MFU: 1
+
+#### Description
+
+The main multiblock of the line. The cycle of the entire line is read from it.
+
+> [!CAUTION]
+> Water Purification Plant must be connected.
+
+The controller is connected via MFU to keep it accessible.
+
+#### Example setup
+
+![Water Purification Plant](/docs/water-purification-plant.png)
+
 ### [T3] Flocculated Water (Grade 3)
 
 #### Components
