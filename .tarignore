@@ -2,5 +2,6 @@
 .gitignore
 .github/
 .git/
+docs/
 *.md
 *.png
