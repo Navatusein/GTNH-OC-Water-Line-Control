@@ -24,7 +24,7 @@ function t6controller:new(transposerAddress)
   ---@class T6Controller
   local obj = {}
 
-  obj.transposerProxy = componentDiscoverLib.discoverProxy(transposerAddress, "[T6] Transposer", "transposer")
+  obj.transposerProxy = nil
   obj.controllerProxy = nil
 
   obj.stateMachine = stateMachineLib:new()
@@ -116,6 +116,7 @@ function t6controller:new(transposerAddress)
       error("[T6] High Energy Laser Purification Unit not found")
     end
 
+    self.transposerProxy = componentDiscoverLib.discoverProxy(transposerAddress, "[T6] Transposer", "transposer")
     self.gtSensorParser = gtSensorParserLib:new(self.controllerProxy)
   end
 

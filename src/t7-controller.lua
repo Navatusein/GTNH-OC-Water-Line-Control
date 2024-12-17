@@ -39,22 +39,10 @@ function t7controller:new(
   ---@class T7Controller
   local obj = {}
 
-  obj.inertGasTransposerProxy = componentDiscoverLib.discoverProxy(
-    inertGasTransposerAddress,
-    "[T7] Inert Gas Transposer",
-    "transposer")
-  obj.superConductorTransposerProxy = componentDiscoverLib.discoverProxy(
-    superConductorTransposerAddress,
-    "[T7] Super Conductor Transposer",
-    "transposer")
-  obj.netroniumTransposerProxy = componentDiscoverLib.discoverProxy(
-    netroniumTransposerAddress,
-    "[T7] Netronium Transposer",
-    "transposer")
-  obj.coolantTransposerProxy = componentDiscoverLib.discoverProxy(
-    coolantTransposerAddress,
-    "[T7] Coolant Transposer",
-    "transposer")
+  obj.inertGasTransposerProxy = nil
+  obj.superConductorTransposerProxy = nil
+  obj.netroniumTransposerProxy = nil
+  obj.coolantTransposerProxy = nil
   obj.controllerProxy = nil
 
   ---@type TransposerFluidStorageDescriptor[]
@@ -136,6 +124,22 @@ function t7controller:new(
       error("[T7] Residual Decontaminant Degasser Purification Unit not found")
     end
 
+    self.inertGasTransposerProxy = componentDiscoverLib.discoverProxy(
+      inertGasTransposerAddress,
+      "[T7] Inert Gas Transposer",
+      "transposer")
+    self.superConductorTransposerProxy = componentDiscoverLib.discoverProxy(
+      superConductorTransposerAddress,
+      "[T7] Super Conductor Transposer",
+      "transposer")
+    self.netroniumTransposerProxy = componentDiscoverLib.discoverProxy(
+      netroniumTransposerAddress,
+      "[T7] Netronium Transposer",
+      "transposer")
+    self.coolantTransposerProxy = componentDiscoverLib.discoverProxy(
+      coolantTransposerAddress,
+      "[T7] Coolant Transposer",
+      "transposer")
     self.gtSensorParser = gtSensorParserLib:new(self.controllerProxy)
   end
 

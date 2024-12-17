@@ -26,14 +26,8 @@ function t4controller:new(hydrochloricAcidTransposerAddress, sodiumHydroxideTran
   ---@class T4Controller
   local obj = {}
 
-  obj.hydrochloricAcidTransposerProxy = componentDiscoverLib.discoverProxy(
-    hydrochloricAcidTransposerAddress,
-    "[T4] Hydrochloric Acid Transposer",
-    "transposer")
-  obj.sodiumHydroxideTransposerProxy = componentDiscoverLib.discoverProxy(
-    sodiumHydroxideTransposerAddress,
-    "[T4] Sodium Hydroxide Transposer",
-    "transposer")
+  obj.hydrochloricAcidTransposerProxy = nil
+  obj.sodiumHydroxideTransposerProxy = nil
   obj.controllerProxy = nil
 
   obj.stateMachine = stateMachineLib:new()
@@ -96,6 +90,14 @@ function t4controller:new(hydrochloricAcidTransposerAddress, sodiumHydroxideTran
       error("[T4] pH Neutralization Purification Unit not found")
     end
 
+    self.hydrochloricAcidTransposerProxy = componentDiscoverLib.discoverProxy(
+      hydrochloricAcidTransposerAddress,
+      "[T4] Hydrochloric Acid Transposer",
+      "transposer")
+    self.sodiumHydroxideTransposerProxy = componentDiscoverLib.discoverProxy(
+      sodiumHydroxideTransposerAddress,
+      "[T4] Sodium Hydroxide Transposer",
+      "transposer")
     self.gtSensorParser = gtSensorParserLib:new(self.controllerProxy)
   end
 
