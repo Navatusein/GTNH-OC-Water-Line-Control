@@ -283,6 +283,9 @@ t8 = { -- Controller for T8 Subatomically Perfect Water (Grade 8)
 
 ## Configuration
 
+General configuration in file `config.lua`
+The configuration of water line modules is described in paragraph [Water Line Setup](#water-line-setup).
+
 Enable auto update when starting the program.
 
 ```lua
