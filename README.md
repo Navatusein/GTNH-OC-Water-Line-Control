@@ -14,6 +14,7 @@
 Program is designed to automate the water line from T3 to T8 water. 
 Program is modular, you can choose which water types you want to automate.
 It is also possible to send messages to Discord about out of service situations.
+And there is also the possibility of auto update at startup.
 
 #### Controls
 
