@@ -19,6 +19,10 @@ It is also possible to send messages to Discord about out of service situations.
 
 <kbd>Q</kbd> - Closing the program
 
+<kbd>Arrow Up</kbd> - Scroll list up
+
+<kbd>Arrow Down</kbd> - Scroll list down
+
 #### Interface
 
 ![Interface](/docs/interface.png)
