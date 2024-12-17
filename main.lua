@@ -8,7 +8,12 @@ local scrollList = require("lib.gui-widgets.scroll-list")
 package.loaded.config = nil
 local config = require("config")
 
-local program = programLib:new(config.logger)
+local version = require("version")
+
+local repository = "Navatusein/GTNH-OC-Water-Line-Control"
+local archiveName = "WaterLineControl"
+
+local program = programLib:new(config.logger, config.enableAutoUpdate, version, repository, archiveName)
 local gui = guiLib:new(program)
 
 local logo = {
