@@ -14,6 +14,7 @@
 Program is designed to automate the water line from T3 to T8 water. 
 Program is modular, you can choose which water types you want to automate.
 It is also possible to send messages to Discord about out of service situations.
+And there is also the possibility of auto update at startup.
 
 #### Controls
 
@@ -36,9 +37,9 @@ To install program, you need a server with:
 - Central Processing Unit (CPU) (Tier 3): 1
 - Memory (Tier 3.5): 2
 - Component Bus (Tier 3): 1
-- Hard Disk Drive (Tier 3) (4MB)
-- EEPROM (Lua BIOS)
-- Internet Card
+- Hard Disk Drive (Tier 3) (4MB): 1
+- EEPROM (Lua BIOS): 1
+- Internet Card: 1
 
 ![Computer setup](/docs/server.png)
 
@@ -71,6 +72,27 @@ The program interface is configured for a 3x2 monitor.
 > If you click on it, it will be copied.
 >
 > <img src="docs/analyzer.png" alt="Analyzer" width="120"/>
+
+### Water Purification Plant
+
+#### Components
+
+To build a setup, you will need:
+- Adapter: 1
+- MFU: 1
+
+#### Description
+
+The main multiblock of the line. The cycle of the entire line is read from it.
+
+> [!CAUTION]
+> Water Purification Plant must be connected.
+
+The controller is connected via MFU to keep it accessible.
+
+#### Example setup
+
+![Water Purification Plant](/docs/water-purification-plant.png)
 
 ### [T3] Flocculated Water (Grade 3)
 
@@ -257,12 +279,18 @@ To use the module for t8 water in the `config.lua`
 You must also specify the address of the transposer in the `transposerAddress` 
 field, which is located under the hv input bus and to which the interface with the Quarks connected.
 Also the address of the adapter connected to me interface in the `subMeInterfaceAddress` field.
+Also in the configs you can change the number of quarks the computer must support in this field ` maxQuarkCount`.
 
 The controller is connected via MFU to keep it accessible.
 
-The idea is that the quarks lie on a separate sub AE. 
-They are fed into the interest to the interface connected to the storage bus to see how many quarks there are. 
-After the cycle, the quarks are dumped into this subnet and the computer sees which ones are missing and orders them through the Laser Engraver.
+The idea is that a separate subnet is made for quarks. The Absolute Baryonic Perfection Purification Unit returns unused quarks and 2 
+Unaligned Quark Releasing Catalysts after crafting is complete. The computer looks to see which quarks are less than the specified 
+number (`maxQuarkCount` in the default configs is 4) and orders them. That is, the subnet must have at least 2 CPUs and a 
+Hyper-Intensity Laser Engraver connected to order quarks. It is possible without a subnet, but the condition is that the computer can order quarks. 
+Stabilized Baryonic Matter can be fed into the subsystem or directly into the Laser Engraver.
+
+> [!NOTE]  
+> Maximum 42 infinity ingots used per cycle. But usually less. Consumption can be 6, 18, 42 ingots per cycle. Depends on luck.
 
 #### T8 Config part
 
