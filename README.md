@@ -37,9 +37,9 @@ To install program, you need a server with:
 - Central Processing Unit (CPU) (Tier 3): 1
 - Memory (Tier 3.5): 2
 - Component Bus (Tier 3): 1
-- Hard Disk Drive (Tier 3) (4MB)
-- EEPROM (Lua BIOS)
-- Internet Card
+- Hard Disk Drive (Tier 3) (4MB): 1
+- EEPROM (Lua BIOS): 1
+- Internet Card: 1
 
 ![Computer setup](/docs/server.png)
 
