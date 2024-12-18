@@ -1,7 +1,7 @@
 -- Program Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 2.3
+-- Version: 3.0
 
 local event = require("event")
 local thread = require("thread")
