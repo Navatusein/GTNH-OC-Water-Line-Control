@@ -50,8 +50,8 @@ Then run the command to start the installer.
 pastebin run ESUAMAGx
 ``` 
 
-Then select the Water Line Control programme in the installer.
-If you wish you can add the programme to auto download, for manual start write a command.
+Then select the Water Line Control program in the installer.
+If you wish you can add the program to auto download, for manual start write a command.
 
 ```shell
 main
