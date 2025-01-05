@@ -1,0 +1,276 @@
+descriptor:
+  fieldGroups:
+    - key: logger
+      name: Logger
+      fields:
+        - key: name
+          type: string
+          default: Water Line Control
+          label: Name
+          description: Name witch will be displayed in discord
+
+        - key: timeZone
+          type: integer
+          default: 3
+          label: Time Zone
+          description: Your time zone
+
+        - key: discordWebhookUrl
+          type: url
+          default: ""
+          optional: true
+          label: Discord Webhook Url
+          description: Discord Webhook Url for notifications
+
+    - key: t3
+      name: T3 Water
+      fields:
+        - key: t3Enable
+          type: boolean
+          optional: true
+          default: false
+          class: switch
+          label: Enable T3 Module
+          description: Enable module for T3 water
+
+        - key: t3TransposerAddress
+          type: address
+          default: ""
+          optional: true
+          label: Polyaluminium Chloride Transposer Address
+          description: Address of transposer which provide Polyaluminium Chloride
+
+    - key: t4
+      name: T4 Water
+      fields:
+        - key: t4Enable
+          type: boolean
+          optional: true
+          default: false
+          class: switch
+          label: Enable T4 Module
+          description: Enable module for T4 water
+
+        - key: t4HydrochloricAcidTransposerAddress
+          type: address
+          default: ""
+          optional: true
+          label: Hydrochloric Acid Transposer Address
+          description: Address of transposer which provide Hydrochloric Acid
+
+        - key: t4SodiumHydroxideTransposerAddress
+          type: address
+          default: ""
+          optional: true
+          label: Sodium Hydroxide Transposer Address
+          description: Address of transposer which provide Sodium Hydroxide Dust
+
+    - key: t5
+      name: T5 Water
+      fields:
+        - key: t5Enable
+          type: boolean
+          optional: true
+          default: false
+          class: switch
+          label: Enable T5 Module
+          description: Enable module for T5 water
+
+        - key: t5PlasmaTransposerAddress
+          type: address
+          default: ""
+          optional: true
+          label: Plasma Transposer Address
+          description: Address of transposer which provide Helium Plasma
+
+        - key: t5CoolantTransposerAddress
+          type: address
+          default: ""
+          optional: true
+          label: Coolant Transposer Address
+          description: Address of transposer which provide Super Coolant
+
+    - key: t6
+      name: T6 Water
+      fields:
+        - key: t6Enable
+          type: boolean
+          optional: true
+          default: false
+          class: switch
+          label: Enable T6 Module
+          description: Enable module for T6 water
+
+        - key: t6TransposerAddress
+          type: address
+          default: ""
+          optional: true
+          label: Lenses Transposer Address
+          description: Address of transposer which provide Lenses
+
+    - key: t7
+      name: T7 Water
+      fields:
+        - key: t7Enable
+          type: boolean
+          optional: true
+          default: false
+          class: switch
+          label: Enable T7 Module
+          description: Enable module for T7 water
+
+        - key: t7InertGasTransposerAddress
+          type: address
+          default: ""
+          optional: true
+          label: Inert Gas Transposer Address
+          description: Address of transposer which provide Inert Gas
+
+        - key: t7SuperConductorTransposerAddress
+          type: address
+          default: ""
+          optional: true
+          label: Super Conductor Transposer Address
+          description: Address of transposer which provide Super Conductor
+
+        - key: t7NetroniumTransposerAddress
+          type: address
+          default: ""
+          optional: true
+          label: Netronium Transposer Address
+          description: Address of transposer which provide Molten Neutronium
+
+        - key: t7CoolantTransposerAddress
+          type: address
+          default: ""
+          optional: true
+          label: Coolant Transposer Address
+          description: Address of transposer which provide Super Coolant
+
+    - key: t8
+      name: T8 Water
+      fields:
+        - key: t8Enable
+          type: boolean
+          optional: true
+          default: false
+          class: switch
+          label: Enable T8 Module
+          description: Enable module for T8 water
+
+        - key: t8MaxQuarkCount
+          type: integer
+          default: 4
+          min: 1
+          label: Max Quark Count
+          description: Maximum number of each quark in the sub AE
+
+        - key: t8TransposerAddress
+          type: address
+          default: ""
+          optional: true
+          label: Transposer Address
+          description: Address of transposer which provide Quarks
+
+        - key: t8SubMeInterfaceAddress
+          type: address
+          default: ""
+          optional: true
+          label: Sub ME Interface Address
+          description: Address of me interface which connected to sub AE
+
+  configTemplate: |
+    local loggerLib = require("lib.logger-lib")
+    local discordLoggerHandler = require("lib.logger-handler.discord-logger-handler-lib")
+    local fileLoggerHandler = require("lib.logger-handler.file-logger-handler-lib")
+    local scrollListLoggerHandler = require("lib.logger-handler.scroll-list-logger-handler-lib")
+    
+    local lineControllerLib = require("src.line-controller")
+    
+    local t3controllerLib = require("src.t3-controller")
+    local t4controllerLib = require("src.t4-controller")
+    local t5controllerLib = require("src.t5-controller")
+    local t6controllerLib = require("src.t6-controller")
+    local t7controllerLib = require("src.t7-controller")
+    local t8controllerLib = require("src.t8-controller")
+    
+    local config = {
+      enableAutoUpdate = true, -- Enable auto update on start
+    
+      logger = loggerLib:newFormConfig({
+        name = "<field>name</field>",
+        timeZone = <field>timeZone</field>, -- Your time zone
+        handlers = {
+          discordLoggerHandler:newFormConfig({
+            logLevel = "warning",
+            messageFormat = "{Time:%d.%m.%Y %H:%M:%S} [{LogLevel}]: {Message}",
+            discordWebhookUrl = "<field>discordWebhookUrl</field>" -- Discord Webhook URL
+          }),
+          fileLoggerHandler:newFormConfig({
+            logLevel = "debug",
+            messageFormat = "{Time:%d.%m.%Y %H:%M:%S} [{LogLevel}]: {Message}",
+            filePath = "logs.log"
+          }),
+            scrollListLoggerHandler:newFormConfig({
+            logLevel = "debug",
+            logsListSize = 32
+          }),
+        }
+      }),
+    
+      lineController = lineControllerLib:newFormConfig(),
+    
+      controllers = {
+        t3 = { -- Controller for T3 Flocculated Water (Grade 3)
+          enable = <field>t3Enable</field>, -- Enable module for T3 water
+          controller = t3controllerLib:newFormConfig({
+            transposerAddress = "<field>t3TransposerAddress</field>", -- Address of transposer which provide Polyaluminium Chloride
+          }),
+        },
+        
+        t4 = { -- Controller for T4 pH Neutralized Water (Grade 4)
+          enable = <field>t4Enable</field>, -- Enable module for T4 water
+          controller = t4controllerLib:newFormConfig({
+            hydrochloricAcidTransposerAddress = "<field>t4HydrochloricAcidTransposerAddress</field>", -- Address of transposer which provide Hydrochloric Acid
+            sodiumHydroxideTransposerAddress = "<field>t4SodiumHydroxideTransposerAddress</field>" -- Address of transposer which provide Sodium Hydroxide Dust
+          }),
+        },
+        
+        t5 = { -- Controller for T5 Extreme-Temperature Treated Water (Grade 5)
+          enable = <field>t5Enable</field>, -- Enable module for T5 water
+          controller = t5controllerLib:newFormConfig({
+            plasmaTransposerAddress = "<field>t5PlasmaTransposerAddress</field>", -- Address of transposer which provide Helium Plasma
+            coolantTransposerAddress = "<field>t5CoolantTransposerAddress</field>" -- Address of transposer which provide Super Coolant
+          }),
+        },
+        
+        t6 = { -- Controller for T6 Ultraviolet Treated Electrically Neutral Water (Grade 6)
+          enable = <field>t6Enable</field>, -- Enable module for T6 water
+          controller = t6controllerLib:newFormConfig({
+            transposerAddress = "<field>t6TransposerAddress</field>" -- Address of transposer which provide Lenses
+          }),
+        },
+        
+        t7 = { -- Controller for T7 Degassed Decontaminant-Free Water (Grade 7)
+          enable = <field>t7Enable</field>, -- Enable module for T7 water
+          controller = t7controllerLib:newFormConfig({
+            inertGasTransposerAddress = "<field>t7InertGasTransposerAddress</field>", -- Address of transposer which provide Inert Gas
+            superConductorTransposerAddress = "<field>t7SuperConductorTransposerAddress</field>", -- Address of transposer which provide Super Conductor
+            netroniumTransposerAddress = "<field>t7NetroniumTransposerAddress</field>", -- Address of transposer which provide Molten Neutronium
+            coolantTransposerAddress = "<field>t7CoolantTransposerAddress</field>" -- Address of transposer which provide Super Coolant
+          }),
+        },
+        
+        t8 = { -- Controller for T8 Subatomically Perfect Water (Grade 8)
+          enable = <field>t8Enable</field>, -- Enable module for T8 water
+          controller = t8controllerLib:newFormConfig({
+            maxQuarkCount = <field>t8MaxQuarkCount</field>, -- Maximum number of each quark in the sub AE
+            transposerAddress = "<field>t8TransposerAddress</field>", -- Address of transposer which provide Quarks
+            subMeInterfaceAddress = "<field>t8SubMeInterfaceAddress</field>" -- Address of me interface which connected to sub AE
+          })
+        }
+      }
+    }
+    
+    return config
+

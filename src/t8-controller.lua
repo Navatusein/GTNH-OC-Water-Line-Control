@@ -105,7 +105,7 @@ function t8controller:new(maxQuarkCount, transposerAddress, subMeInterfaceAddres
 
     self.stateMachine.states.craftQuarks = self.stateMachine:createState("Craft Quarks")
     self.stateMachine.states.craftQuarks.init = function()
-      os.sleep(1)
+      os.sleep(3)
 
       local quarks = self.subMeInterfaceProxy.getItemsInNetwork({name = "gregtech:gt.metaitem.03"})
 

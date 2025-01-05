@@ -1,5 +1,6 @@
 .tarignore
 .gitignore
+config-descriptor.yml
 .github/
 .git/
 docs/
