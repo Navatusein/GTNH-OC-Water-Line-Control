@@ -1,7 +1,7 @@
 -- Program Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 3.0
+-- Version: 3.1
 
 local event = require("event")
 local thread = require("thread")
@@ -251,6 +251,8 @@ function program:new(logger, enableAutoUpdate, version, repository, archiveName)
       os.sleep(3)
       return
     end
+
+    tryDownloadTarUtility()
 
     local url = "https://github.com/"..self.repository.."/releases/latest/download/"..self.archiveName..".tar"
 
