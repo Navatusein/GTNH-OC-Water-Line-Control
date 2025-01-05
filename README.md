@@ -50,15 +50,15 @@ Then run the command to start the installer.
 pastebin run ESUAMAGx
 ``` 
 
-Then select the Water Line Control programme in the installer.
-If you wish you can add the programme to auto download, for manual start write a command.
+Then select the Water Line Control program in the installer.
+If you wish you can add the program to auto download, for manual start write a command.
 
 ```shell
 main
 ```
 
 > [!NOTE]  
-> For convenient configuration I can use the web configurator.
+> For convenient configuration you can use the web configurator.
 > [GTNH-OC-Web-Configurator](https://navatusein.github.io/GTNH-OC-Web-Configurator/#/configurator?url=https%3A%2F%2Fraw.githubusercontent.com%2FNavatusein%2FGTNH-OC-Water-Line-Control%2Frefs%2Fheads%2Fmain%2Fconfig-descriptor.yml)
 
 #### Computer setup
