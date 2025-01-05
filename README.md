@@ -57,6 +57,10 @@ If you wish you can add the program to auto download, for manual start write a c
 main
 ```
 
+> [!NOTE]  
+> For convenient configuration I can use the web configurator.
+> [GTNH-OC-Web-Configurator](https://navatusein.github.io/GTNH-OC-Web-Configurator/#/configurator?url=https%3A%2F%2Fraw.githubusercontent.com%2FNavatusein%2FGTNH-OC-Water-Line-Control%2Frefs%2Fheads%2Fmain%2Fconfig-descriptor.yml)
+
 #### Computer setup
 
 The program interface is configured for a 3x2 monitor.
