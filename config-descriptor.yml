@@ -1,7 +1,11 @@
 descriptor:
+  name: Water Line Control
+  description: Program for the automation of Grate water production from t3 to t8
+  repositoryLink: https://github.com/Navatusein/GTNH-OC-Infusion-Control
   fieldGroups:
     - key: logger
       name: Logger
+      defaultOpen: true
       fields:
         - key: name
           type: string
@@ -24,6 +28,7 @@ descriptor:
 
     - key: t3
       name: T3 Water
+      defaultOpen: true
       fields:
         - key: t3Enable
           type: boolean
@@ -42,6 +47,7 @@ descriptor:
 
     - key: t4
       name: T4 Water
+      defaultOpen: true
       fields:
         - key: t4Enable
           type: boolean
@@ -67,6 +73,7 @@ descriptor:
 
     - key: t5
       name: T5 Water
+      defaultOpen: true
       fields:
         - key: t5Enable
           type: boolean
@@ -92,6 +99,7 @@ descriptor:
 
     - key: t6
       name: T6 Water
+      defaultOpen: true
       fields:
         - key: t6Enable
           type: boolean
@@ -110,6 +118,7 @@ descriptor:
 
     - key: t7
       name: T7 Water
+      defaultOpen: true
       fields:
         - key: t7Enable
           type: boolean
@@ -149,6 +158,7 @@ descriptor:
 
     - key: t8
       name: T8 Water
+      defaultOpen: true
       fields:
         - key: t8Enable
           type: boolean
@@ -227,7 +237,7 @@ descriptor:
             transposerAddress = "<field>t3TransposerAddress</field>", -- Address of transposer which provide Polyaluminium Chloride
           }),
         },
-        
+    
         t4 = { -- Controller for T4 pH Neutralized Water (Grade 4)
           enable = <field>t4Enable</field>, -- Enable module for T4 water
           controller = t4controllerLib:newFormConfig({
@@ -235,7 +245,7 @@ descriptor:
             sodiumHydroxideTransposerAddress = "<field>t4SodiumHydroxideTransposerAddress</field>" -- Address of transposer which provide Sodium Hydroxide Dust
           }),
         },
-        
+    
         t5 = { -- Controller for T5 Extreme-Temperature Treated Water (Grade 5)
           enable = <field>t5Enable</field>, -- Enable module for T5 water
           controller = t5controllerLib:newFormConfig({
@@ -243,14 +253,14 @@ descriptor:
             coolantTransposerAddress = "<field>t5CoolantTransposerAddress</field>" -- Address of transposer which provide Super Coolant
           }),
         },
-        
+    
         t6 = { -- Controller for T6 Ultraviolet Treated Electrically Neutral Water (Grade 6)
           enable = <field>t6Enable</field>, -- Enable module for T6 water
           controller = t6controllerLib:newFormConfig({
             transposerAddress = "<field>t6TransposerAddress</field>" -- Address of transposer which provide Lenses
           }),
         },
-        
+    
         t7 = { -- Controller for T7 Degassed Decontaminant-Free Water (Grade 7)
           enable = <field>t7Enable</field>, -- Enable module for T7 water
           controller = t7controllerLib:newFormConfig({
@@ -260,7 +270,7 @@ descriptor:
             coolantTransposerAddress = "<field>t7CoolantTransposerAddress</field>" -- Address of transposer which provide Super Coolant
           }),
         },
-        
+    
         t8 = { -- Controller for T8 Subatomically Perfect Water (Grade 8)
           enable = <field>t8Enable</field>, -- Enable module for T8 water
           controller = t8controllerLib:newFormConfig({
