@@ -217,7 +217,10 @@ To use the module for t7 water in the `config.lua`
 file you need to enable the module by changing `enable = false` to `enable = true`. 
 You must also specify the address of the transposer in the `transposerAddress` field, which is located above the Lens Housing and to which the chest with lenses connected.
 
-The chest should contain all 9 lenses: Orundum Lens, Amber Lens, Aer Lens, Emerald Lens, Mana Diamond Lens, Blue Topaz Lens, Amethyst Lens, Fluor-Buergerite Lens, Dilithium Lens
+The chest should contain all 9 lenses: Orundum Lens, Amber Lens, Aer Lens, Emerald Lens, Mana Diamond Lens, Blue Topaz Lens, Amethyst Lens, Fluor-Buergerite Lens, Dilithium Lens.
+
+> [!NOTE]  
+> Dilithium Lens is optional.
 
 ![Chest With Lenses](/docs/chest-with-lenses.png)
 
