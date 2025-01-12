@@ -6,3 +6,4 @@ config-descriptor.yml
 docs/
 *.md
 *.png
+*.zip

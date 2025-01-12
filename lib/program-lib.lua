@@ -1,7 +1,7 @@
 -- Program Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 3.1
+-- Version: 3.3
 
 local event = require("event")
 local thread = require("thread")
@@ -35,21 +35,6 @@ local function try(callback)
     end
     return table.unpack(result, 2)
   end
-end
-
----Download and install tar utility if not installed
-local function tryDownloadTarUtility()
-  if filesystem.exists("/bin/tar.lua") then
-    return
-  end
-
-  local tarManUrl = "https://raw.githubusercontent.com/mpmxyz/ocprograms/master/usr/man/tar.man"
-  local tarBinUrl = "https://raw.githubusercontent.com/mpmxyz/ocprograms/master/home/bin/tar.lua"
-
-  shell.setWorkingDirectory("/usr/man")
-  shell.execute("wget -fq "..tarManUrl)
-  shell.setWorkingDirectory("/bin")
-  shell.execute("wget -fq "..tarBinUrl)
 end
 
 local program = {}
@@ -188,23 +173,38 @@ function program:new(logger, enableAutoUpdate, version, repository, archiveName)
   end
 
   ---Check if update is needed
-  ---@return boolean
-  ---@return ProgramVersion|nil
+  ---@return boolean # Need program update
+  ---@return boolean # Need config update
+  ---@return ProgramVersion|nil # Remote version
   function obj:isUpdateNeeded()
-    if self.version == nil then
-      return false, nil
-    end
-
-    if internet == nil then
-      return false, nil
+    if self.version == nil or internet == nil then
+      return false, false, nil
     end
 
     local remoteVersion = obj:getLatestVersionNumber()
 
-    local currentVersion = self.version.programVersion:gsub("[%D]", "")
-    local latestVersion = remoteVersion.programVersion:gsub("[%D]", "")
+    local currentProgramVersion = self.version.programVersion:gsub("[%D]", "")
+    local latestProgramVersion = remoteVersion.programVersion:gsub("[%D]", "")
 
-    return latestVersion > currentVersion, remoteVersion
+    local isUpdateNeeded = latestProgramVersion > currentProgramVersion
+    local isConfigUpdateNeeded = remoteVersion.configVersion > self.version.configVersion
+
+    return isUpdateNeeded, isConfigUpdateNeeded, remoteVersion
+  end
+
+  ---Download and install tar utility if not installed
+  function obj:tryDownloadTarUtility()
+    if filesystem.exists("/bin/tar.lua") then
+      return
+    end
+
+    local tarManUrl = "https://raw.githubusercontent.com/mpmxyz/ocprograms/master/usr/man/tar.man"
+    local tarBinUrl = "https://raw.githubusercontent.com/mpmxyz/ocprograms/master/home/bin/tar.lua"
+
+    shell.setWorkingDirectory("/usr/man")
+    shell.execute("wget -fq "..tarManUrl)
+    shell.setWorkingDirectory("/bin")
+    shell.execute("wget -fq "..tarBinUrl)
   end
 
   ---Download and install latest version
@@ -217,32 +217,9 @@ function program:new(logger, enableAutoUpdate, version, repository, archiveName)
     shell.execute("rm program.tar")
   end
 
-  ---Update config file
-  ---@param remoteVersion ProgramVersion
-  ---@return boolean
-  function obj:updateConfig(remoteVersion)
-    local currentVersion = self.version.configVersion
-    local latestVersion = remoteVersion.configVersion
-
-    if currentVersion >= latestVersion then
-      shell.execute("mv config.old.lua config.lua")
-      return true
-    end
-
-    self.logger:warning("[Autoupdate] The format of the configs has been updated. It is necessary to manually rewrite the configuration file.")
-
-    term.write("The format of the configs has been updated. It is necessary to manually rewrite the configuration file.\n")
-    term.write("After rewriting the configuration file, do not forget to restart your computer.\n")
-    term.write("Press [Enter] to confirm\n")
-
-    term.read()
-
-    return false
-  end
-
   ---Try auto update program
   function obj:autoUpdate()
-    local isUpdateNeeded, remoteVersion = self:isUpdateNeeded()
+    local isUpdateNeeded, isConfigUpdateNeeded, remoteVersion = self:isUpdateNeeded()
     term.setCursor(1, 1)
     term.write("Check for new version...\n")
 
@@ -252,19 +229,49 @@ function program:new(logger, enableAutoUpdate, version, repository, archiveName)
       return
     end
 
-    tryDownloadTarUtility()
+    term.clear()
+    term.write("Find new version: "..remoteVersion.programVersion.."\n")
+
+    if isConfigUpdateNeeded then
+      term.write("This update changes the format of the configuration file.\n")
+      term.write("It will be necessary to manually overwrite the configuration file.\n")
+    end
+
+    term.write("Do you want to update [y/n]?\n")
+    term.write("==>")
+
+    local userInput = io.read()
+
+    if string.lower(userInput) ~= "y" then
+      return
+    end
+
+    self:tryDownloadTarUtility()
 
     local url = "https://github.com/"..self.repository.."/releases/latest/download/"..self.archiveName..".tar"
 
+    term.clear()
     term.write("Updating to version "..remoteVersion.programVersion.."\n")
 
     self:downloadAndInstall(url)
-    local allowRestart = self:updateConfig(remoteVersion)
 
+    if isConfigUpdateNeeded then
+      self.logger:warning("[Autoupdate] The format of the configs has been updated. It is necessary to manually rewrite the configuration file.")
+
+      term.write("The format of the configs has been updated. It is necessary to manually rewrite the configuration file.\n")
+      term.write("After rewriting the configuration file, do not forget to restart your computer.\n")
+      term.write("Press [Enter] to confirm")
+
+      term.read()
+    else
+      shell.execute("mv config.old.lua config.lua")
+    end
+
+    term.clear()
     term.write("Update completed\n")
     os.sleep(3)
 
-    if allowRestart then
+    if isConfigUpdateNeeded == false then
       computer.shutdown(true)
       return
     end

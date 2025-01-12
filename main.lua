@@ -68,7 +68,7 @@ local function init()
 end
 
 local function initControllers()
-  os.sleep(0.1)
+  os.sleep(0.5)
   config.lineController:init()
 
   for i = 3, 8, 1 do

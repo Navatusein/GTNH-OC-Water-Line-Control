@@ -78,9 +78,6 @@ function t6controller:new(transposerAddress)
       end
 
       self:putLens(lens)
-
-      self.stateMachine.data.currentLens = lens
-      self.stateMachine:setState(self.stateMachine.states.waitLens)
     end
 
     self.stateMachine.states.waitLens = self.stateMachine:createState("Wait Lens")
@@ -127,7 +124,9 @@ function t6controller:new(transposerAddress)
     local result, skipped = componentDiscoverLib.discoverTransposerItemStorage(proxy, itemLabels)
 
     if #skipped ~= 0 then
-      error("[T6] Can't find items: "..table.concat(skipped, ", "))
+      if not (#skipped == 1 and skipped[1] == "Dilithium Lens") then
+        error("[T6] Can't find items: "..table.concat(skipped, ", "))
+      end
     end
 
     for key, value in pairs(result) do
@@ -135,7 +134,7 @@ function t6controller:new(transposerAddress)
     end
   end
 
-  ---Reset lens from bus befor init
+  ---Reset lens from bus before init
   function obj:resetLenses()
     local transposerSides = componentDiscoverLib.discoverTransposerItemStorageSide(self.transposerProxy, {sides.bottom})
 
@@ -149,10 +148,17 @@ function t6controller:new(transposerAddress)
   function obj:putLens(lens)
     if self.stateMachine.data.currentLens ~= nil then
       self.transposerProxy.transferItem(
-        sides.bottom, self.transposerItems[self.stateMachine.data.currentLens].side,
+        sides.bottom,
+        self.transposerItems[self.stateMachine.data.currentLens].side,
         1,
         1,
         self.transposerItems[self.stateMachine.data.currentLens].slot)
+    end
+
+    if lens == "Dilithium Lens" and self.transposerItems[lens] == nil then
+      self.stateMachine.data.currentLens = nil
+      self.stateMachine:setState(self.stateMachine.states.waitEnd)
+      return
     end
 
     local result = self.transposerProxy.transferItem(
@@ -163,10 +169,19 @@ function t6controller:new(transposerAddress)
 
     if result ~= 1 then
       self.controllerProxy.setWorkAllowed(false)
+      self.stateMachine.data.currentLens = nil
+      self.stateMachine:setState(self.stateMachine.states.waitEnd)
       event.push("log_warning", "[T6] Invalid slot: "..self.transposerItems[lens].slot.." for: "..lens)
+      return
     end
 
     self.stateMachine.data.currentLens = lens
+
+    if lens == "Dilithium Lens" then
+      self.stateMachine:setState(self.stateMachine.states.waitEnd)
+    else
+      self.stateMachine:setState(self.stateMachine.states.waitLens)
+    end
   end
 
   ---Loop
