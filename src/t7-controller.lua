@@ -64,7 +64,9 @@ function t7controller:new(
 
     self.stateMachine.states.idle = self.stateMachine:createState("Idle")
     self.stateMachine.states.idle.update = function()
-      if self.controllerProxy.hasWork() then
+      if self.gtSensorParser:getNumber(2, "Success chance:") == 100 then
+        self.stateMachine:setState(self.stateMachine.states.waitEnd)
+      elseif self.controllerProxy.hasWork() then
         self.stateMachine:setState(self.stateMachine.states.work)
       end
     end
