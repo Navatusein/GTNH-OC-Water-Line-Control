@@ -293,6 +293,8 @@ You must also specify the address of the transposer in the `transposerAddress`
 field, which is located under the hv input bus and to which the interface with the Quarks connected.
 Also the address of the adapter connected to me interface in the `subMeInterfaceAddress` field.
 Also in the configs you can change the number of quarks the computer must support in this field ` maxQuarkCount`.
+There you need to specify the number of quarks that are in the subnet. So if you put 7 quarks of each type in the subnet. 
+3 will go into the interface, then you need to specify 4. Because that's how many are left in the subnet.
 
 The controller is connected via MFU to keep it accessible.
 
