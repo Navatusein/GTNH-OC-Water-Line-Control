@@ -32,6 +32,11 @@ And there is also the possibility of auto update at startup.
 
 ## Installation
 
+> [!CAUTION]
+> If you are using 8 java, the installer will not work for you. 
+> The only way to install the program is to manually transfer it to your computer.
+> The problem is on the java side.
+
 To install program, you need a server with:
 - Graphics Card (Tier 3): 1
 - Central Processing Unit (CPU) (Tier 3): 1
@@ -249,6 +254,10 @@ To build a setup, you will need:
 - MFU: 1
 
 #### Description
+
+> [!NOTE]  
+> If you play on version 2.7 do not forget to install `Degasser Control Hatch` in the structure, 
+> although it is not necessary for the program, but without it the structure will not work
 
 To use the module for t7 water in the `config.lua`
 You must also specify the addresses of the transposers: 
