@@ -1,7 +1,7 @@
 descriptor:
   name: Water Line Control
   description: Program for the automation of Grate water production from t3 to t8
-  repositoryLink: https://github.com/Navatusein/GTNH-OC-Infusion-Control
+  repositoryLink: https://github.com/Navatusein/GTNH-OC-Water-Line-Control
   fieldGroups:
     - key: logger
       name: Logger
