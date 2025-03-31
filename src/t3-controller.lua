@@ -46,6 +46,13 @@ function t3controller:new(transposerAddress)
 
     self.stateMachine.states.work = self.stateMachine:createState("Work")
     self.stateMachine.states.work.init = function()
+      local currentCount = self.gtSensorParser:getNumber(4, "Polyaluminium Chloride consumed this cycle: §c")
+
+      if currentCount >= 900000 then
+        self.stateMachine:setState(self.stateMachine.states.waitEnd)
+        return
+      end
+
       local result = self.transposerProxy.transferFluid(
         self.transposerLiquids["polyaluminiumchloride"].side,
         sides.up,
