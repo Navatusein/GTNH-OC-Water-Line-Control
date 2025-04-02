@@ -55,6 +55,12 @@ Then run the command to start the installer.
 pastebin run ESUAMAGx
 ``` 
 
+Or
+
+```shell
+wget -f https://raw.githubusercontent.com/Navatusein/GTNH-OC-Installer/main/installer.lua && installer
+``` 
+
 Then select the Water Line Control program in the installer.
 If you wish you can add the program to auto download, for manual start write a command.
 
@@ -338,6 +344,10 @@ t8 = { -- Controller for T8 Subatomically Perfect Water (Grade 8)
 <a id="configuration"></a>
 
 ## Configuration
+
+> [!NOTE]  
+> For convenient configuration you can use the web configurator.
+> [GTNH-OC-Web-Configurator](https://navatusein.github.io/GTNH-OC-Web-Configurator/#/configurator?url=https%3A%2F%2Fraw.githubusercontent.com%2FNavatusein%2FGTNH-OC-Water-Line-Control%2Frefs%2Fheads%2Fmain%2Fconfig-descriptor.yml)
 
 General configuration in file `config.lua`
 The configuration of water line modules is described in paragraph [Water Line Setup](#water-line-setup).
