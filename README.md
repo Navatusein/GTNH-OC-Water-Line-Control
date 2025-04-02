@@ -91,7 +91,7 @@ The program interface is configured for a 3x2 monitor.
 <br/>
 
 > [!NOTE]  
-> There's a save of the world with a setup of water lane. Game version 2.7.3
+> There's a save of the world with a setup of water line. Game version 2.7.3
 > [Save](https://github.com/Navatusein/GTNH-OC-Water-Line-Control/raw/main/water-line-world.zip)
 
 ### Water Purification Plant
