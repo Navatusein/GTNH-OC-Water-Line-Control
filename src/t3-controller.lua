@@ -48,7 +48,7 @@ function t3controller:new(transposerAddress)
     self.stateMachine.states.work.init = function()
       local currentCount = self.gtSensorParser:getNumber(4, "Polyaluminium Chloride consumed this cycle: §c")
 
-      if currentCount >= 900000 then
+      if currentCount ~= nil and currentCount >= 900000 then
         self.stateMachine:setState(self.stateMachine.states.waitEnd)
         return
       end

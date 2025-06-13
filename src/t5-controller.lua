@@ -47,7 +47,7 @@ function t5controller:new(plasmaTransposerAddress, coolantTransposerAddress)
     self.stateMachine.states.idle.init = function ()
       local temperature = self.gtSensorParser:getNumber(4, "Current temperature:")
 
-      if self.controllerProxy.hasWork() and temperature ~= 0 then
+      if self.controllerProxy.hasWork() and temperature ~= nil and temperature ~= 0 then
         self.stateMachine:setState(self.stateMachine.states.waitEnd)
       end
     end
