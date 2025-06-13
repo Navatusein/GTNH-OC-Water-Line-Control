@@ -114,8 +114,13 @@ local function guiLoop()
   })
 end
 
+local function onExit()
+  config.lineController:disable()
+end
+
 program:registerLogo(logo)
 program:registerInit(init)
+program:registerOnExit(onExit)
 program:registerThread(loop)
 program:registerTimer(guiLoop, math.huge, 1)
 program:start()
