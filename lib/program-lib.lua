@@ -1,7 +1,7 @@
 -- Program Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 3.3
+-- Version: 3.4
 
 local event = require("event")
 local thread = require("thread")
@@ -78,6 +78,7 @@ function program:new(logger, enableAutoUpdate, version, repository, archiveName)
 
   obj.logo = nil
   obj.init = nil
+  obj.onExit = nil
 
   ---Register logo
   ---@param logo string[]
@@ -89,6 +90,12 @@ function program:new(logger, enableAutoUpdate, version, repository, archiveName)
   ---@param callback function
   function obj:registerInit(callback)
     self.init = callback
+  end
+
+  ---Register onExit function
+  ---@param callback function
+  function obj:registerOnExit(callback)
+    self.onExit = callback
   end
 
   ---Register timer
@@ -288,6 +295,10 @@ function program:new(logger, enableAutoUpdate, version, repository, archiveName)
       elseif type(coroutine) == "number" then
         event.cancel(coroutine)
       end
+    end
+
+    if self.onExit then
+      try(self.onExit)()
     end
 
     self.gpu.freeAllBuffers()

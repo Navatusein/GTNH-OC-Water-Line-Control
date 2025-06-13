@@ -64,6 +64,13 @@ function lineController:new()
     return "Disable"
   end
 
+  ---Disable line controller
+  function obj:disable()
+    if self.controllerProxy ~= nil then
+      self.controllerProxy.setWorkAllowed(false)
+    end
+  end
+
   setmetatable(obj, self)
   self.__index = self
   return obj
