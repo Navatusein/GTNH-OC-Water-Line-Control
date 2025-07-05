@@ -54,7 +54,12 @@ function t4controller:new(hydrochloricAcidTransposerAddress, sodiumHydroxideTran
     self.stateMachine.states.work = self.stateMachine:createState("Work")
     self.stateMachine.states.work.init = function()
       local phValue = self.gtSensorParser:getNumber(4, "Current pH Value:")
-      local diffPh = 7 - tonumber(string.format("%.3f", phValue))
+
+      if phValue == nil then
+        return
+      end
+
+      local diffPh = 7 - phValue
       local count = math.floor(math.abs(diffPh / 0.01))
 
       if count == 0 then
