@@ -52,7 +52,7 @@ function t4controller:new(hydrochloricAcidTransposerAddress, sodiumHydroxideTran
     end
 
     self.stateMachine.states.work = self.stateMachine:createState("Work")
-    self.stateMachine.states.work.init = function()
+    self.stateMachine.states.work.update = function()
       local phValue = self.gtSensorParser:getNumber(4, "Current pH Value:")
 
       if phValue == nil then
