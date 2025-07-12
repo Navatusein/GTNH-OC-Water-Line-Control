@@ -165,13 +165,14 @@ function t4controller:new(hydrochloricAcidTransposerAddress, sodiumHydroxideTran
   ---@param count integer
   function obj:putHydrochloricAcid(count)
     local hydrochloricAcidCount = count * 10
-    local result = self.hydrochloricAcidTransposerProxy.transferFluid(
+    
+    local _, result = self.hydrochloricAcidTransposerProxy.transferFluid(
       self.transposerLiquids["hydrochloricacid_gt5u"].side,
       sides.bottom,
       hydrochloricAcidCount,
       self.transposerLiquids["hydrochloricacid_gt5u"].tank)
 
-    if result == false then
+    if result ~= hydrochloricAcidCount then
       self.controllerProxy.setWorkAllowed(false)
       event.push("log_warning", "[T4] Not enough Hydrochloric Acid for craft")
     end

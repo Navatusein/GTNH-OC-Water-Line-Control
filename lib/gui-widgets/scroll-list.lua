@@ -1,7 +1,7 @@
 -- Scroll List Widget
 -- Author: Navatusein
 -- License: MIT
--- Version: 1.0
+-- Version: 1.2
 
 local scrollList = {}
 
@@ -84,6 +84,7 @@ function scrollList:new(name, valueName, scrollUpKeyCode, scrollDownKeyCode)
   end
 
   ---Scroll up
+  ---@private
   function obj:scrollUp()
     if self.offset > 0 then
       self.offset = self.offset - 1
@@ -91,6 +92,7 @@ function scrollList:new(name, valueName, scrollUpKeyCode, scrollDownKeyCode)
   end
 
   ---Scroll down
+  ---@private
   function obj:scrollDown()
     if self.offset <= self.maxOffset then
       self.offset = self.offset + 1

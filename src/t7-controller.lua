@@ -51,6 +51,10 @@ function t7controller:new(
   obj.stateMachine = stateMachineLib:new()
   obj.gtSensorParser = nil
 
+  obj.superconductorCount = 1440
+  obj.neutroniumCount = 4608
+  obj.supercoolantCount = 10000
+
   ---Init T7Controller
   function obj:init()
     self:findMachineProxy()
@@ -197,13 +201,13 @@ function t7controller:new(
       count = 2500
     end
 
-    local result = self.inertGasTransposerProxy.transferFluid(
+    local _, result = self.inertGasTransposerProxy.transferFluid(
       self.transposerLiquids[inertGas].side,
       sides.up,
       count,
       self.transposerLiquids[inertGas].tank)
 
-    if result == false then
+    if result ~= count then
       self.controllerProxy.setWorkAllowed(false)
       event.push("log_warning", "[T7] Not enough "..inertGas.." for craft")
     end
@@ -211,13 +215,13 @@ function t7controller:new(
 
   ---Put super conductor in input hatch
   function obj:putSuperConductor()
-    local result = self.superConductorTransposerProxy.transferFluid(
+    local _, result = self.superConductorTransposerProxy.transferFluid(
       self.transposerLiquids["superconductor"].side,
       sides.up,
-      1440,
+      self.superconductorCount,
       self.transposerLiquids["superconductor"].tank)
 
-    if result == false then
+    if result ~= self.superconductorCount then
       self.controllerProxy.setWorkAllowed(false)
       event.push("log_warning", "[T7] Not enough superconductor for craft")
     end
@@ -225,13 +229,13 @@ function t7controller:new(
 
   ---Put super conductor in input hatch
   function obj:putNeutronium()
-    local result = self.netroniumTransposerProxy.transferFluid(
+    local _, result = self.netroniumTransposerProxy.transferFluid(
       self.transposerLiquids["neutronium"].side,
       sides.up,
-      4608,
+      self.neutroniumCount,
       self.transposerLiquids["neutronium"].tank)
 
-    if result == false then
+    if result ~= self.neutroniumCount then
       self.controllerProxy.setWorkAllowed(false)
       event.push("log_warning", "[T7] Not enough neutronium for craft")
     end
@@ -239,13 +243,13 @@ function t7controller:new(
 
   ---Put coolant in input hatch
   function obj:putCoolant()
-    local result = self.coolantTransposerProxy.transferFluid(
+    local _, result = self.coolantTransposerProxy.transferFluid(
       self.transposerLiquids["supercoolant"].side,
       sides.up,
-      10000,
+      self.supercoolantCount,
       self.transposerLiquids["supercoolant"].tank)
 
-    if result == false then
+    if result ~= self.supercoolantCount then
       self.controllerProxy.setWorkAllowed(false)
       event.push("log_warning", "[T7] Not enough coolant for craft")
     end

@@ -1,7 +1,7 @@
 -- Logger Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 2.3
+-- Version: 2.4
 
 local filesystem = require("filesystem")
 local event = require("event")
@@ -66,6 +66,7 @@ function logger:new(name, timeZone, handlers)
   ---Get real time
   ---@param format string|nil
   ---@return string
+  ---@private
   function obj:getTime(format)
     format = format or "%d.%m.%Y %H:%M:%S"
 
@@ -83,6 +84,7 @@ function logger:new(name, timeZone, handlers)
   ---@param level number
   ---@param object table|boolean|number|string
   ---@return string
+  ---@private
   function obj:objectToString(level, object)
     level = level or 0
     local message = ""
@@ -113,6 +115,7 @@ function logger:new(name, timeZone, handlers)
   ---@param object table|boolean|number|string
   ---@param ... any
   ---@return string
+  ---@private
   function obj:objectToStringRecursion(object, ...)
     local args = {...}
     if #args > 0 then
@@ -127,6 +130,7 @@ function logger:new(name, timeZone, handlers)
   ---@param logLevel "debug"|"info"|"warning"|"error"
   ---@param message string
   ---@return string
+  ---@private
   function obj:formatMessage(format, logLevel, message)
     local result = format
 

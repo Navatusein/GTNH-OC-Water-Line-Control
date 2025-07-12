@@ -1,7 +1,7 @@
 -- Program Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 3.4
+-- Version: 3.8
 
 local event = require("event")
 local thread = require("thread")
@@ -92,7 +92,7 @@ function program:new(logger, enableAutoUpdate, version, repository, archiveName)
     self.init = callback
   end
 
-  ---Register onExit function
+    ---Register onExit function
   ---@param callback function
   function obj:registerOnExit(callback)
     self.onExit = callback
@@ -143,149 +143,6 @@ function program:new(logger, enableAutoUpdate, version, repository, archiveName)
     self.keyHandlers[keyCode] = nil
   end
 
-  function obj:displayLogo()
-    local width = #self.logo[1] + 2
-    local height = #self.logo + 3
-
-    self.gpu.setResolution(width, height)
-    self.gpu.fill(1, 1, width, height, " ")
-
-    term.setCursor(1, 2)
-
-    for _, line in pairs(self.logo) do
-      term.write(" "..line.."\n")
-    end
-
-    local currentVersion = self.version ~= nil and self.version.programVersion or "nil"
-
-    term.write("\nversion: "..currentVersion.."\n")
-
-    os.sleep(1)
-
-    self.gpu.fill(1, 1, width, height, " ")
-    self.gpu.setResolution(self.defaultWidth, self.defaultHeight)
-  end
-
-  ---Get latest version number
-  ---@return ProgramVersion
-  function obj:getLatestVersionNumber()
-    local request = internet.request("https://raw.githubusercontent.com/"..self.repository.."/refs/heads/main/version.lua")
-    local result = ""
-
-    for chunk in request do
-      result = result..chunk
-    end
-
-    return load(result)()
-  end
-
-  ---Check if update is needed
-  ---@return boolean # Need program update
-  ---@return boolean # Need config update
-  ---@return ProgramVersion|nil # Remote version
-  function obj:isUpdateNeeded()
-    if self.version == nil or internet == nil then
-      return false, false, nil
-    end
-
-    local remoteVersion = obj:getLatestVersionNumber()
-
-    local currentProgramVersion = self.version.programVersion:gsub("[%D]", "")
-    local latestProgramVersion = remoteVersion.programVersion:gsub("[%D]", "")
-
-    local isUpdateNeeded = latestProgramVersion > currentProgramVersion
-    local isConfigUpdateNeeded = remoteVersion.configVersion > self.version.configVersion
-
-    return isUpdateNeeded, isConfigUpdateNeeded, remoteVersion
-  end
-
-  ---Download and install tar utility if not installed
-  function obj:tryDownloadTarUtility()
-    if filesystem.exists("/bin/tar.lua") then
-      return
-    end
-
-    local tarManUrl = "https://raw.githubusercontent.com/mpmxyz/ocprograms/master/usr/man/tar.man"
-    local tarBinUrl = "https://raw.githubusercontent.com/mpmxyz/ocprograms/master/home/bin/tar.lua"
-
-    shell.setWorkingDirectory("/usr/man")
-    shell.execute("wget -fq "..tarManUrl)
-    shell.setWorkingDirectory("/bin")
-    shell.execute("wget -fq "..tarBinUrl)
-  end
-
-  ---Download and install latest version
-  ---@param url string
-  function obj:downloadAndInstall(url)
-    shell.setWorkingDirectory("/home")
-    shell.execute("mv config.lua config.old.lua")
-    shell.execute("wget -fq "..url.." program.tar")
-    shell.execute("tar -xf program.tar")
-    shell.execute("rm program.tar")
-  end
-
-  ---Try auto update program
-  function obj:autoUpdate()
-    local isUpdateNeeded, isConfigUpdateNeeded, remoteVersion = self:isUpdateNeeded()
-    term.setCursor(1, 1)
-    term.write("Check for new version...\n")
-
-    if isUpdateNeeded == false or remoteVersion == nil then
-      term.write("Current version is latest\n")
-      os.sleep(3)
-      return
-    end
-
-    term.clear()
-    term.write("Find new version: "..remoteVersion.programVersion.."\n")
-
-    if isConfigUpdateNeeded then
-      term.write("This update changes the format of the configuration file.\n")
-      term.write("It will be necessary to manually overwrite the configuration file.\n")
-    end
-
-    term.write("Do you want to update [y/n]?\n")
-    term.write("==>")
-
-    local userInput = io.read()
-
-    if string.lower(userInput) ~= "y" then
-      return
-    end
-
-    self:tryDownloadTarUtility()
-
-    local url = "https://github.com/"..self.repository.."/releases/latest/download/"..self.archiveName..".tar"
-
-    term.clear()
-    term.write("Updating to version "..remoteVersion.programVersion.."\n")
-
-    self:downloadAndInstall(url)
-
-    if isConfigUpdateNeeded then
-      self.logger:warning("[Autoupdate] The format of the configs has been updated. It is necessary to manually rewrite the configuration file.")
-
-      term.write("The format of the configs has been updated. It is necessary to manually rewrite the configuration file.\n")
-      term.write("After rewriting the configuration file, do not forget to restart your computer.\n")
-      term.write("Press [Enter] to confirm")
-
-      term.read()
-    else
-      shell.execute("mv config.old.lua config.lua")
-    end
-
-    term.clear()
-    term.write("Update completed\n")
-    os.sleep(3)
-
-    if isConfigUpdateNeeded == false then
-      computer.shutdown(true)
-      return
-    end
-
-    self:exit()
-  end
-
   ---Program exit
   ---@param exception any
   function obj:exit(exception)
@@ -297,9 +154,9 @@ function program:new(logger, enableAutoUpdate, version, repository, archiveName)
       end
     end
 
-    if self.onExit then
-      try(self.onExit)()
-    end
+      if self.onExit then
+        try(self.onExit)()
+      end
 
     self.gpu.freeAllBuffers()
 
@@ -374,6 +231,158 @@ function program:new(logger, enableAutoUpdate, version, repository, archiveName)
 
     local _, exception = event.pull("exit")
     self:exit(exception)
+  end
+
+  ---Display logo
+  ---@private
+  function obj:displayLogo()
+    local width = #self.logo[1] + 2
+    local height = #self.logo + 3
+
+    self.gpu.setResolution(width, height)
+    self.gpu.fill(1, 1, width, height, " ")
+
+    term.setCursor(1, 2)
+
+    for _, line in pairs(self.logo) do
+      term.write(" "..line.."\n")
+    end
+
+    local currentVersion = self.version ~= nil and self.version.programVersion or "nil"
+
+    term.write("\nversion: "..currentVersion.."\n")
+
+    os.sleep(1)
+
+    self.gpu.fill(1, 1, width, height, " ")
+    self.gpu.setResolution(self.defaultWidth, self.defaultHeight)
+  end
+
+  ---Get latest version number
+  ---@return ProgramVersion
+  ---@private
+  function obj:getLatestVersionNumber()
+    local request = internet.request("https://raw.githubusercontent.com/"..self.repository.."/refs/heads/main/version.lua")
+    local result = ""
+
+    for chunk in request do
+      result = result..chunk
+    end
+
+    return load(result)()
+  end
+
+  ---Check if update is needed
+  ---@return boolean # Need program update
+  ---@return boolean # Need config update
+  ---@return ProgramVersion|nil # Remote version
+  ---@private
+  function obj:isUpdateNeeded()
+    if self.version == nil or internet == nil then
+      return false, false, nil
+    end
+
+    local remoteVersion = obj:getLatestVersionNumber()
+
+    local currentProgramVersion = self.version.programVersion:gsub("[%D]", "")
+    local latestProgramVersion = remoteVersion.programVersion:gsub("[%D]", "")
+
+    local isUpdateNeeded = latestProgramVersion > currentProgramVersion
+    local isConfigUpdateNeeded = remoteVersion.configVersion > self.version.configVersion
+
+    return isUpdateNeeded, isConfigUpdateNeeded, remoteVersion
+  end
+
+  ---Download and install tar utility if not installed
+  ---@private
+  function obj:tryDownloadTarUtility()
+    if filesystem.exists("/bin/tar.lua") then
+      return
+    end
+
+    local tarManUrl = "https://raw.githubusercontent.com/mpmxyz/ocprograms/master/usr/man/tar.man"
+    local tarBinUrl = "https://raw.githubusercontent.com/mpmxyz/ocprograms/master/home/bin/tar.lua"
+
+    shell.setWorkingDirectory("/usr/man")
+    shell.execute("wget -fq "..tarManUrl)
+    shell.setWorkingDirectory("/bin")
+    shell.execute("wget -fq "..tarBinUrl)
+  end
+
+  ---Download and install latest version
+  ---@param url string
+  ---@private
+  function obj:downloadAndInstall(url)
+    shell.setWorkingDirectory("/home")
+    shell.execute("mv config.lua config.old.lua")
+    shell.execute("wget -fq "..url.." program.tar")
+    shell.execute("tar -xf program.tar")
+    shell.execute("rm program.tar")
+  end
+
+  ---Try auto update program
+  ---@private
+  function obj:autoUpdate()
+    local isUpdateNeeded, isConfigUpdateNeeded, remoteVersion = self:isUpdateNeeded()
+    term.setCursor(1, 1)
+    term.write("Check for new version...\n")
+
+    if isUpdateNeeded == false or remoteVersion == nil then
+      term.write("Current version is latest\n")
+      os.sleep(3)
+      term.clear()
+      term.write("Initialization...\n")
+      return
+    end
+
+    term.clear()
+    term.write("Find new version: "..remoteVersion.programVersion.."\n")
+
+    if isConfigUpdateNeeded then
+      term.write("This update changes the format of the configuration file.\n")
+      term.write("It will be necessary to manually overwrite the configuration file.\n")
+    end
+
+    term.write("Do you want to update [y/n]?\n")
+    term.write("==>")
+
+    local userInput = io.read()
+
+    if string.lower(userInput) ~= "y" then
+      return
+    end
+
+    self:tryDownloadTarUtility()
+
+    local url = "https://github.com/"..self.repository.."/releases/latest/download/"..self.archiveName..".tar"
+
+    term.clear()
+    term.write("Updating to version "..remoteVersion.programVersion.."\n")
+
+    self:downloadAndInstall(url)
+
+    if isConfigUpdateNeeded then
+      self.logger:warning("[Autoupdate] The format of the configs has been updated. It is necessary to manually rewrite the configuration file.")
+
+      term.write("The format of the configs has been updated. It is necessary to manually rewrite the configuration file.\n")
+      term.write("After rewriting the configuration file, do not forget to restart your computer.\n")
+      term.write("Press [Enter] to confirm")
+
+      term.read()
+    else
+      shell.execute("mv config.old.lua config.lua")
+    end
+
+    term.clear()
+    term.write("Update completed\n")
+    os.sleep(3)
+
+    if isConfigUpdateNeeded == false then
+      computer.shutdown(true)
+      return
+    end
+
+    self:exit()
   end
 
   setmetatable(obj, self)

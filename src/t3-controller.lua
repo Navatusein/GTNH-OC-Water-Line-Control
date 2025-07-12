@@ -32,6 +32,8 @@ function t3controller:new(transposerAddress)
 
   obj.transposerLiquids = {}
 
+  obj.requiredCount = 900000;
+
   ---Init T3Controller
   function obj:init()
     self:findMachineProxy()
@@ -48,20 +50,34 @@ function t3controller:new(transposerAddress)
     self.stateMachine.states.work.init = function()
       local currentCount = self.gtSensorParser:getNumber(4, "Polyaluminium Chloride consumed this cycle: §c")
 
-      if currentCount ~= nil and currentCount >= 900000 then
+      if currentCount ~= nil and currentCount >= self.requiredCount then
         self.stateMachine:setState(self.stateMachine.states.waitEnd)
         return
       end
 
-      local result = self.transposerProxy.transferFluid(
+      local fluidInTank = self.transposerProxy.getFluidInTank(
         self.transposerLiquids["polyaluminiumchloride"].side,
-        sides.up,
-        900000,
-        self.transposerLiquids["polyaluminiumchloride"].tank)
+        self.transposerLiquids["polyaluminiumchloride"].tank
+      )
 
-      if result ~= true then
+      local countToAdd = self.requiredCount
+
+      if fluidInTank.amount < self.requiredCount then
         self.controllerProxy.setWorkAllowed(false)
         event.push("log_warning", "[T3] Not enough Polyaluminium Chloride for craft")
+
+        countToAdd = fluidInTank.amount - (fluidInTank.amount % 100000)
+      end
+
+      local _, result = self.transposerProxy.transferFluid(
+        self.transposerLiquids["polyaluminiumchloride"].side,
+        sides.up,
+        countToAdd,
+        self.transposerLiquids["polyaluminiumchloride"].tank
+      )
+
+      if result ~= countToAdd then
+        event.push("log_warning", "[T3] Fluid transfer error")
       end
 
       self.stateMachine:setState(self.stateMachine.states.waitEnd)

@@ -1,7 +1,7 @@
 -- Scroll List Logger Handler Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 1.0
+-- Version: 1.1
 
 local listLib = require("lib.list-lib")
 
@@ -45,6 +45,10 @@ function scrollListLoggerHandler:new(logLevel, logsListSize)
     elseif level == "error" then
       self.logs:pushFront("&red;[Error] "..message.."&white;")
     end
+  end
+
+  function obj:clearList()
+    self.logs:clear()
   end
 
   setmetatable(obj, self)

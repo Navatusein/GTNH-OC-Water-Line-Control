@@ -1,7 +1,7 @@
 -- State Machine Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 1.2
+-- Version: 1.3
 
 ---@class State
 ---@field name string
@@ -14,6 +14,7 @@ local stateMachine = {}
 ---Crate new StateMachine object
 ---@return StateMachine
 function stateMachine:new()
+
   ---@class StateMachine
   local obj = {}
 

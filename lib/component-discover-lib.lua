@@ -1,7 +1,7 @@
 -- Component Discover Lib
 -- Author: Navatusein
 -- License: MIT
--- Version: 1.0
+-- Version: 1.2
 
 local component = require("component")
 
@@ -16,6 +16,7 @@ local component = require("component")
 ---Escape special chars from pattern
 ---@param text string
 ---@return string
+---@private
 local function escapePattern(text)
   local specialChars = "().%+-*?[^$"
   local escapePattern = text:gsub("([%" .. specialChars .. "])", "%%%1")
@@ -25,6 +26,7 @@ end
 ---Get sides for check without ignored sides
 ---@param ignoreSides integer[]
 ---@return integer[]
+---@private
 local function getSidesForCheck(ignoreSides)
   local sidesForCheck = {0, 1, 2, 3, 4, 5}
 

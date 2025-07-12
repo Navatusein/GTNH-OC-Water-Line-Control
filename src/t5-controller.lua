@@ -35,6 +35,9 @@ function t5controller:new(plasmaTransposerAddress, coolantTransposerAddress)
 
   obj.transposerLiquids = {}
 
+  obj.coolantCount = 2000
+  obj.plasmaCount = 100
+
   ---Init T5Controller
   function obj:init()
     self:findMachineProxy()
@@ -70,13 +73,13 @@ function t5controller:new(plasmaTransposerAddress, coolantTransposerAddress)
         return
       end
 
-      local result = self.plasmaTransposerProxy.transferFluid(
+      local _, result = self.plasmaTransposerProxy.transferFluid(
         self.transposerLiquids["plasma.helium"].side,
         sides.up,
-        100,
-        self.transposerLiquids["supercoolant"].tank)
+        self.plasmaCount,
+        self.transposerLiquids["plasma.helium"].tank)
 
-      if result == false then
+      if result ~= self.plasmaCount then
         self.controllerProxy.setWorkAllowed(false)
         event.push("log_warning", "[T5] Not enough Helium Plasma for craft")
       end
@@ -95,13 +98,13 @@ function t5controller:new(plasmaTransposerAddress, coolantTransposerAddress)
 
     self.stateMachine.states.cooling = self.stateMachine:createState("Cooling")
     self.stateMachine.states.cooling.init = function ()
-      local result = self.coolantTransposerProxy.transferFluid(
+      local _, result = self.coolantTransposerProxy.transferFluid(
         self.transposerLiquids["supercoolant"].side,
         sides.up,
-        2000,
+        self.coolantCount,
         self.transposerLiquids["supercoolant"].tank)
 
-      if result == false then
+      if result ~= self.coolantCount then
         self.controllerProxy.setWorkAllowed(false)
         event.push("log_warning", "[T5] Not enough Super Coolant for craft")
       end
