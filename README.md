@@ -1,5 +1,9 @@
 # GTNH-OC-Water-Line-Control
 
+> [!CAUTION]
+> In GTNH version 2.8, added tiers for transposers.
+> For the program to work correctly, you need to use at least a LUV pump with a transposer.
+
 ## Content
 
 - [Information](#information)
@@ -117,6 +121,10 @@ The controller is connected via MFU to keep it accessible.
 
 ### [T3] Flocculated Water (Grade 3)
 
+> [!CAUTION]
+> In GTNH version 2.8, added tiers for transposers.
+> For the program to work correctly, you need to use at least a LUV pump with a transposer.
+
 #### Components
 
 To build a setup, you will need:
@@ -150,6 +158,10 @@ t3 = { -- Controller for T3 Flocculated Water (Grade 3)
 
 ### [T4] pH Neutralized Water (Grade 4)
 
+> [!CAUTION]
+> In GTNH version 2.8, added tiers for transposers.
+> For the program to work correctly, you need to use at least a LUV pump with a transposer.
+
 #### Components
 
 To build a setup, you will need:
@@ -182,6 +194,10 @@ t4 = { -- Controller for T4 pH Neutralized Water (Grade 4)
 ![T3 Setup](/docs/t4-setup.png)
 
 ### [T5] Extreme-Temperature Treated Water (Grade 5)
+
+> [!CAUTION]
+> In GTNH version 2.8, added tiers for transposers.
+> For the program to work correctly, you need to use at least a LUV pump with a transposer.
 
 #### Components
 
@@ -251,6 +267,10 @@ t6 = { -- Controller for T6 Ultraviolet Treated Electrically Neutral Water (Grad
 ![T6 Setup](/docs/t6-setup.png)
 
 ### [T7] Degassed Decontaminant-Free Water (Grade 7)
+
+> [!CAUTION]
+> In GTNH version 2.8, added tiers for transposers.
+> For the program to work correctly, you need to use at least a LUV pump with a transposer.
 
 #### Components
 
