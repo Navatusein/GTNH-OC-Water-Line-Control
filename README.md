@@ -240,7 +240,7 @@ To build a setup, you will need:
 
 #### Description
 
-To use the module for t7 water in the `config.lua`
+To use the module for t6 water in the `config.lua`
 file you need to enable the module by changing `enable = false` to `enable = true`. 
 You must also specify the address of the transposer in the `transposerAddress` field, which is located above the Lens Housing and to which the chest with lenses connected.
 
