@@ -5,7 +5,7 @@ descriptor:
   description: Program for the automation of Grate water production from t3 to t8
   repositoryLink: https://github.com/Navatusein/GTNH-OC-Water-Line-Control
   versions:
-    - name: 2.8+
+    - name: 2.8
       url: "https://raw.githubusercontent.com/Navatusein/GTNH-OC-Water-Line-Control/refs/heads/main/config-descriptor.yml"
     - name: 2.9+
       url: "https://raw.githubusercontent.com/Navatusein/GTNH-OC-Water-Line-Control/refs/heads/develop/config-descriptor.yml"
