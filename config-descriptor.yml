@@ -1,7 +1,7 @@
 descriptor:
   name: Water Line Control for 2.8
   key: water-line-control-2.8
-  currentVersion: 2.8+
+  currentVersion: 2.8
   description: Program for the automation of Grate water production from t3 to t8
   repositoryLink: https://github.com/Navatusein/GTNH-OC-Water-Line-Control
   versions:
