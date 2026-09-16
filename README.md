@@ -75,7 +75,7 @@ main
 
 > [!NOTE]  
 > For convenient configuration you can use the web configurator.
-> [GTNH-OC-Web-Configurator](https://navatusein.github.io/GTNH-OC-Web-Configurator/#/configurator?url=https%3A%2F%2Fraw.githubusercontent.com%2FNavatusein%2FGTNH-OC-Water-Line-Control%2Frefs%2Fheads%2Fmain%2Fconfig-descriptor.yml)
+> [GTNH-OC-Web-Configurator](https://navatusein.github.io/GTNH-OC-Web-Configurator/#/configurator?url=https%3A%2F%2Fraw.githubusercontent.com%2FNavatusein%2FGTNH-OC-Water-Line-Control%2Frefs%2Fheads%2Fdevelop%2Fconfig-descriptor.yml)
 
 #### Computer setup
 
@@ -147,9 +147,7 @@ The controller is connected via MFU to keep it accessible.
 ```Lua
 t3 = { -- Controller for T3 Flocculated Water (Grade 3)
   enable = false, -- Enable module for T3 water
-  controller = t3controllerLib:newFormConfig({
-    transposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Polyaluminium Chloride
-  }),
+  transposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" -- Address of transposer which provide Polyaluminium Chloride
 },
 ```
 
@@ -183,10 +181,8 @@ tank and above the input bus for Sodium Hydroxide next to the interface.
 ```Lua
 t4 = { -- Controller for T4 pH Neutralized Water (Grade 4)
   enable = false, -- Enable module for T4 water
-  controller = t4controllerLib:newFormConfig({
-    hydrochloricAcidTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Hydrochloric Acid
-    sodiumHydroxideTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" -- Address of transposer which provide Sodium Hydroxide Dust
-  }),
+  hydrochloricAcidTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Hydrochloric Acid
+  sodiumHydroxideTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" -- Address of transposer which provide Sodium Hydroxide Dust
 },
 ```
 
@@ -220,10 +216,8 @@ tank and below the input hatch for Super Coolant next to the tank.
 ```Lua
 t5 = { -- Controller for T5 Extreme-Temperature Treated Water (Grade 5)
   enable = false, -- Enable module for T5 water
-  controller = t5controllerLib:newFormConfig({
-    plasmaTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Helium Plasma
-    coolantTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" -- Address of transposer which provide Super Coolant
-  }),
+  plasmaTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Helium Plasma
+  coolantTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" -- Address of transposer which provide Super Coolant
 },
 ```
 
@@ -257,9 +251,7 @@ The chest should contain all 9 lenses: Orundum Lens, Amber Lens, Aer Lens, Emera
 ```Lua
 t6 = { -- Controller for T6 Ultraviolet Treated Electrically Neutral Water (Grade 6)
   enable = false, -- Enable module for T6 water
-  controller = t6controllerLib:newFormConfig({
-    transposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" -- Address of transposer which provide Lenses
-  }),
+  transposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" -- Address of transposer which provide Lenses
 },
 ```
 
@@ -300,12 +292,10 @@ The controller is connected via MFU to keep it accessible.
 ```Lua
 t7 = { -- Controller for T7 Degassed Decontaminant-Free Water (Grade 7)
   enable = false, -- Enable module for T7 water
-  controller = t7controllerLib:newFormConfig({
-    inertGasTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Inert Gas
-    superConductorTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Super Conductor
-    netroniumTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Molten Neutronium
-    coolantTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" -- Address of transposer which provide Super Coolant
-  }),
+  inertGasTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Inert Gas
+  superConductorTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Super Conductor
+  netroniumTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Molten Neutronium
+  coolantTransposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" -- Address of transposer which provide Super Coolant
 },
 ```
 
@@ -348,11 +338,9 @@ Stabilized Baryonic Matter can be fed into the subsystem or directly into the La
 ```Lua
 t8 = { -- Controller for T8 Subatomically Perfect Water (Grade 8)
   enable = false, -- Enable module for T8 water
-  controller = t8controllerLib:newFormConfig({
-    maxQuarkCount = 4, -- Maximum number of each quark in the sub AE
-    transposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Quarks
-    subMeInterfaceAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" -- Address of me interface which connected to sub AE
-  })
+  maxQuarkCount = 4, -- Maximum number of each quark in the sub AE
+  transposerAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", -- Address of transposer which provide Quarks
+  subMeInterfaceAddress = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" -- Address of me interface which connected to sub AE
 }
 ```
 
@@ -368,7 +356,7 @@ t8 = { -- Controller for T8 Subatomically Perfect Water (Grade 8)
 
 > [!NOTE]  
 > For convenient configuration you can use the web configurator.
-> [GTNH-OC-Web-Configurator](https://navatusein.github.io/GTNH-OC-Web-Configurator/#/configurator?url=https%3A%2F%2Fraw.githubusercontent.com%2FNavatusein%2FGTNH-OC-Water-Line-Control%2Frefs%2Fheads%2Fmain%2Fconfig-descriptor.yml)
+> [GTNH-OC-Web-Configurator](https://navatusein.github.io/GTNH-OC-Web-Configurator/#/configurator?url=https%3A%2F%2Fraw.githubusercontent.com%2FNavatusein%2FGTNH-OC-Water-Line-Control%2Frefs%2Fheads%2Fdevelop%2Fconfig-descriptor.yml)
 
 General configuration in file `config.lua`
 The configuration of water line modules is described in paragraph [Water Line Setup](#water-line-setup).
@@ -385,24 +373,27 @@ In the `discordWebhookUrl` field, you can specify the Discord Webhook link so th
 [How to Create a Discord Webhook?](https://www.svix.com/resources/guides/how-to-make-webhook-discord/)
 
 ```lua
-logger = loggerLib:newFormConfig({
+logger = {
   name = "Water Line Control",
   timeZone = 3, -- Your time zone
   handlers = {
-    discordLoggerHandler:newFormConfig({
+    ["discord"] = {
+      type = "discord",
       logLevel = "warning",
       messageFormat = "{Time:%d.%m.%Y %H:%M:%S} [{LogLevel}]: {Message}",
       discordWebhookUrl = "" -- Discord Webhook URL
-    }),
-    fileLoggerHandler:newFormConfig({
+    },
+    ["file"] = {
+      type = "file",
       logLevel = "debug",
       messageFormat = "{Time:%d.%m.%Y %H:%M:%S} [{LogLevel}]: {Message}",
       filePath = "logs.log"
-    }),
-    scrollListLoggerHandler:newFormConfig({
+    },
+    ["scrollList"] = {
+      type = "scrollList",
       logLevel = "debug",
       logsListSize = 32
-    }),
+    },
   }
-}),
+},
 ```

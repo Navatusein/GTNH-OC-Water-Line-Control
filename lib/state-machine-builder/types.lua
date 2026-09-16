@@ -1,0 +1,4 @@
+---@class StateDefinitionOptions
+---@field onInit? fun()
+---@field onUpdate? fun()
+---@field onExit? fun()

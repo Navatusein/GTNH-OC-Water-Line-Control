@@ -1,13 +1,27 @@
 descriptor:
-  name: Water Line Control
-  key: water-line-control-2.8
-  currentVersion: 2.8+
+  name: Water Line Control for 2.9+
+  key: water-line-control-2.9
+  currentVersion: 2.9+
   description: Program for the automation of Grate water production from t3 to t8
   repositoryLink: https://github.com/Navatusein/GTNH-OC-Water-Line-Control
   versions:
     - name: 2.8+
       url: "https://raw.githubusercontent.com/Navatusein/GTNH-OC-Water-Line-Control/refs/heads/main/config-descriptor.yml"
+    - name: 2.9+
+      url: "https://raw.githubusercontent.com/Navatusein/GTNH-OC-Water-Line-Control/refs/heads/develop/config-descriptor.yml"
   fieldGroups:
+    - key: general
+      name: General
+      defaultOpen: true
+      fields:
+        - key: autoUpdate
+          type: boolean
+          optional: true
+          default: true
+          class: checkbox
+          label: Enable Auto Update
+          description: Enable program automatic update
+
     - key: logger
       name: Logger
       defaultOpen: true
@@ -195,97 +209,72 @@ descriptor:
           description: Address of me interface which connected to sub AE
 
   configTemplate: |
-    local loggerLib = require("lib.logger-lib")
-    local discordLoggerHandler = require("lib.logger-handler.discord-logger-handler-lib")
-    local fileLoggerHandler = require("lib.logger-handler.file-logger-handler-lib")
-    local scrollListLoggerHandler = require("lib.logger-handler.scroll-list-logger-handler-lib")
-    
-    local lineControllerLib = require("src.line-controller")
-    
-    local t3controllerLib = require("src.t3-controller")
-    local t4controllerLib = require("src.t4-controller")
-    local t5controllerLib = require("src.t5-controller")
-    local t6controllerLib = require("src.t6-controller")
-    local t7controllerLib = require("src.t7-controller")
-    local t8controllerLib = require("src.t8-controller")
-    
     local config = {
-      enableAutoUpdate = true, -- Enable auto update on start
-    
-      logger = loggerLib:newFormConfig({
+      enableAutoUpdate = <field>autoUpdate</field>, -- Enable auto update on start
+
+      logger = {
         name = "<field>name</field>",
         timeZone = <field>timeZone</field>, -- Your time zone
         handlers = {
-          discordLoggerHandler:newFormConfig({
+          ["discord"] = {
+            type = "discord",
             logLevel = "warning",
             messageFormat = "{Time:%d.%m.%Y %H:%M:%S} [{LogLevel}]: {Message}",
             discordWebhookUrl = "<field>discordWebhookUrl</field>" -- Discord Webhook URL
-          }),
-          fileLoggerHandler:newFormConfig({
+          },
+          ["file"] = {
+            type = "file",
             logLevel = "debug",
             messageFormat = "{Time:%d.%m.%Y %H:%M:%S} [{LogLevel}]: {Message}",
             filePath = "logs.log"
-          }),
-            scrollListLoggerHandler:newFormConfig({
+          },
+          ["scrollList"] = {
+            type = "scrollList",
             logLevel = "debug",
             logsListSize = 32
-          }),
+          },
         }
-      }),
-    
-      lineController = lineControllerLib:newFormConfig(),
-    
+      },
+
       controllers = {
         t3 = { -- Controller for T3 Flocculated Water (Grade 3)
           enable = <field>t3Enable</field>, -- Enable module for T3 water
-          controller = t3controllerLib:newFormConfig({
-            transposerAddress = "<field>t3TransposerAddress</field>", -- Address of transposer which provide Polyaluminium Chloride
-          }),
+          transposerAddress = "<field>t3TransposerAddress</field>" -- Address of transposer which provide Polyaluminium Chloride
         },
-    
+
         t4 = { -- Controller for T4 pH Neutralized Water (Grade 4)
           enable = <field>t4Enable</field>, -- Enable module for T4 water
-          controller = t4controllerLib:newFormConfig({
-            hydrochloricAcidTransposerAddress = "<field>t4HydrochloricAcidTransposerAddress</field>", -- Address of transposer which provide Hydrochloric Acid
-            sodiumHydroxideTransposerAddress = "<field>t4SodiumHydroxideTransposerAddress</field>" -- Address of transposer which provide Sodium Hydroxide Dust
-          }),
+          hydrochloricAcidTransposerAddress = "<field>t4HydrochloricAcidTransposerAddress</field>", -- Address of transposer which provide Hydrochloric Acid
+          sodiumHydroxideTransposerAddress = "<field>t4SodiumHydroxideTransposerAddress</field>" -- Address of transposer which provide Sodium Hydroxide Dust
         },
-    
+
         t5 = { -- Controller for T5 Extreme-Temperature Treated Water (Grade 5)
           enable = <field>t5Enable</field>, -- Enable module for T5 water
-          controller = t5controllerLib:newFormConfig({
-            plasmaTransposerAddress = "<field>t5PlasmaTransposerAddress</field>", -- Address of transposer which provide Helium Plasma
-            coolantTransposerAddress = "<field>t5CoolantTransposerAddress</field>" -- Address of transposer which provide Super Coolant
-          }),
+          plasmaTransposerAddress = "<field>t5PlasmaTransposerAddress</field>", -- Address of transposer which provide Helium Plasma
+          coolantTransposerAddress = "<field>t5CoolantTransposerAddress</field>" -- Address of transposer which provide Super Coolant
         },
-    
+
         t6 = { -- Controller for T6 Ultraviolet Treated Electrically Neutral Water (Grade 6)
           enable = <field>t6Enable</field>, -- Enable module for T6 water
-          controller = t6controllerLib:newFormConfig({
-            transposerAddress = "<field>t6TransposerAddress</field>" -- Address of transposer which provide Lenses
-          }),
+          transposerAddress = "<field>t6TransposerAddress</field>" -- Address of transposer which provide Lenses
         },
-    
+
         t7 = { -- Controller for T7 Degassed Decontaminant-Free Water (Grade 7)
           enable = <field>t7Enable</field>, -- Enable module for T7 water
-          controller = t7controllerLib:newFormConfig({
-            inertGasTransposerAddress = "<field>t7InertGasTransposerAddress</field>", -- Address of transposer which provide Inert Gas
-            superConductorTransposerAddress = "<field>t7SuperConductorTransposerAddress</field>", -- Address of transposer which provide Super Conductor
-            netroniumTransposerAddress = "<field>t7NetroniumTransposerAddress</field>", -- Address of transposer which provide Molten Neutronium
-            coolantTransposerAddress = "<field>t7CoolantTransposerAddress</field>" -- Address of transposer which provide Super Coolant
-          }),
+          inertGasTransposerAddress = "<field>t7InertGasTransposerAddress</field>", -- Address of transposer which provide Inert Gas
+          superConductorTransposerAddress = "<field>t7SuperConductorTransposerAddress</field>", -- Address of transposer which provide Super Conductor
+          netroniumTransposerAddress = "<field>t7NetroniumTransposerAddress</field>", -- Address of transposer which provide Molten Neutronium
+          coolantTransposerAddress = "<field>t7CoolantTransposerAddress</field>" -- Address of transposer which provide Super Coolant
         },
-    
+
         t8 = { -- Controller for T8 Subatomically Perfect Water (Grade 8)
           enable = <field>t8Enable</field>, -- Enable module for T8 water
-          controller = t8controllerLib:newFormConfig({
-            maxQuarkCount = <field>t8MaxQuarkCount</field>, -- Maximum number of each quark in the sub AE
-            transposerAddress = "<field>t8TransposerAddress</field>", -- Address of transposer which provide Quarks
-            subMeInterfaceAddress = "<field>t8SubMeInterfaceAddress</field>" -- Address of me interface which connected to sub AE
-          })
+          maxQuarkCount = <field>t8MaxQuarkCount</field>, -- Maximum number of each quark in the sub AE
+          transposerAddress = "<field>t8TransposerAddress</field>", -- Address of transposer which provide Quarks
+          subMeInterfaceAddress = "<field>t8SubMeInterfaceAddress</field>" -- Address of me interface which connected to sub AE
         }
       }
     }
-    
+
     return config
 

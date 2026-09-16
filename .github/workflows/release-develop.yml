@@ -1,10 +1,9 @@
-name: Release Production
+name: Release Develop
 
 on:
   push:
     tags:
-      - "v*.*.*"
-      - "!v*.*.*-dev.*"
+      - "v*.*.*-dev.*"
 
 permissions:
   contents: write
@@ -27,7 +26,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref_name }}
-        release_name: Release ${{ github.ref_name }}
+        release_name: Pre-release ${{ github.ref_name }}
         body: |
           ### What's Changed
           - item.
@@ -35,7 +34,7 @@ jobs:
           #### Bug Fixes
           - item.
         draft: true
-        prerelease: false
+        prerelease: true
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
