@@ -11,14 +11,16 @@ local gtSensorParser = require("lib.gt-sensor-parser.index")
 ---@param bitString string
 ---@return boolean[]
 local function bitParser(bitString)
-  bitString = string.rep("0", 4 - #bitString)..bitString
+  local bin = bitString:match("0[bB]([01]+)") or bitString:match("([01]+)%s*$") or ""
 
-  local bits = {
-    tonumber(bitString:sub(4, 4)) == 1,
-    tonumber(bitString:sub(3, 3)) == 1,
-    tonumber(bitString:sub(2, 2)) == 1,
-    tonumber(bitString:sub(1, 1)) == 1,
-  }
+  bin = string.rep("0", 4 - #bin) .. bin
+  bin = bin:sub(-4)
+
+  local bits = {}
+
+  for i = 1, 4 do
+    bits[i] = bin:sub(5 - i, 5 - i) == "1"
+  end
 
   return bits
 end
