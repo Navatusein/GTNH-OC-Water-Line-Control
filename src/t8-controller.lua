@@ -35,28 +35,28 @@ function t8controller:constructor(maxQuarkCount, transposerAddress, subMeInterfa
 
   self.drops = {
     {
-      "Up-Quark Releasing Catalyst",
-      "Down-Quark Releasing Catalyst",
-      "Strange-Quark Releasing Catalyst",
-      "Charm-Quark Releasing Catalyst",
-      "Bottom-Quark Releasing Catalyst",
-      "Top-Quark Releasing Catalyst"
+      "Up Quark Releasing Catalyst",
+      "Down Quark Releasing Catalyst",
+      "Strange Quark Releasing Catalyst",
+      "Charm Quark Releasing Catalyst",
+      "Bottom Quark Releasing Catalyst",
+      "Top Quark Releasing Catalyst"
     },
     {
-      "Up-Quark Releasing Catalyst",
-      "Strange-Quark Releasing Catalyst",
-      "Bottom-Quark Releasing Catalyst",
-      "Down-Quark Releasing Catalyst",
-      "Top-Quark Releasing Catalyst",
-      "Charm-Quark Releasing Catalyst"
+      "Up Quark Releasing Catalyst",
+      "Strange Quark Releasing Catalyst",
+      "Bottom Quark Releasing Catalyst",
+      "Down Quark Releasing Catalyst",
+      "Top Quark Releasing Catalyst",
+      "Charm Quark Releasing Catalyst"
     },
     {
-      "Up-Quark Releasing Catalyst",
-      "Bottom-Quark Releasing Catalyst",
-      "Down-Quark Releasing Catalyst",
-      "Charm-Quark Releasing Catalyst",
-      "Strange-Quark Releasing Catalyst",
-      "Top-Quark Releasing Catalyst"
+      "Up Quark Releasing Catalyst",
+      "Bottom Quark Releasing Catalyst",
+      "Down Quark Releasing Catalyst",
+      "Charm Quark Releasing Catalyst",
+      "Strange Quark Releasing Catalyst",
+      "Top Quark Releasing Catalyst"
     }
   }
 
@@ -119,12 +119,12 @@ function t8controller:initComponents()
   self.gtSensorParser = gtSensorParser.parser:new(self.controllerProxy)
 
   self:findTransposerItem(self.transposerProxy, {
-    "Up-Quark Releasing Catalyst",
-    "Down-Quark Releasing Catalyst",
-    "Strange-Quark Releasing Catalyst",
-    "Charm-Quark Releasing Catalyst",
-    "Bottom-Quark Releasing Catalyst",
-    "Top-Quark Releasing Catalyst"
+    "Up Quark Releasing Catalyst",
+    "Down Quark Releasing Catalyst",
+    "Strange Quark Releasing Catalyst",
+    "Charm Quark Releasing Catalyst",
+    "Bottom Quark Releasing Catalyst",
+    "Top Quark Releasing Catalyst"
   })
 
   self.gtSensorParser:getInformation()
